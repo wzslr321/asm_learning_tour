@@ -2,7 +2,7 @@
 
 <p align="center"> 
   <i> 
-    It includes: 
+    It includes: </br> 
     * Assembly code with comments explaining every instruction 
         * Every file has also its compiled and ready to run version. 
     * Online learning materials I've studied with
@@ -25,12 +25,12 @@
 <b> Repository tree </b>
 
 ```bash
-|-- README.md
-|-- basics
-|   `-- hello-world
-|       |-- hello.o
-|       |-- hello_world
-|       `-- hello_world.asm
-|-- materials
-`-- notes
+├── basics
+│   └── hello-world
+│       ├── hello_world
+│       ├── hello_world.asm
+│       └── hello_world.o
+├── materials
+│   └── README.md
+└── README.md
 ```
