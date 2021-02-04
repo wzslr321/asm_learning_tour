@@ -28,6 +28,10 @@
 
 ```bash
 ├── basics
+│   ├── guess_number
+│   │   ├── guess
+│   │   ├── guess.asm
+│   │   └── guess.o
 │   └── hello-world
 │       ├── hello_world
 │       ├── hello_world.asm
