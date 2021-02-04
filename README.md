@@ -1,5 +1,4 @@
 <h2 align = "center"> This repository shows my learning tour with Assembly language </h2>
-
 <p align="center"> 
   <i> 
     It includes: </br> 
@@ -26,6 +25,10 @@
 
 ```bash
 ├── basics
+│   ├── guess_number
+│   │   ├── guess
+│   │   ├── guess.asm
+│   │   └── guess.o
 │   └── hello-world
 │       ├── hello_world
 │       ├── hello_world.asm
