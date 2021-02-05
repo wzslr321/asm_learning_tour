@@ -1,11 +1,12 @@
 <h2 align = "center"> This repository shows my learning tour with Assembly language </h2>
 
 <b> It includes: </b>
-  * Assembly code with comments explaining every instruction 
-    * Every file has also its compiled and ready to run version. 
-  * Online learning materials I've studied with
-  * My personal notes
-  
+
+- Assembly code with comments explaining every instruction
+  - Every file has also its compiled and ready to run version.
+- Online learning materials I've studied with
+- My personal notes
+
 <br/>
 
 <b> Below you can also find repository tree and my environment setup and workflow. <b>
@@ -22,26 +23,24 @@
 
 ---
 
-<h3 align="center"> Repository tree </h3> 
+<h3 align="center"> Repository tree </h3>
 
 <br/>
 
 ```bash
 ├── basics
-│   ├── guess_number
-│   │   ├── guess
-│   │   ├── guess.asm
-│   │   └── guess.o
-│   └── hello-world
-│       ├── hello_world
-│       ├── hello_world.asm
-│       └── hello_world.o
+│   ├── hello-world
+│   │   ├── hello_world.asm
+│   ├── loop1_10
+│   │   ├── loop.asm
+│   └── naive_logging
+│       ├── login.asm
 ├── materials
 │   └── README.md
 └── README.md
 ```
 
---- 
+---
 
 <h3 align="center"> My environment </h3>
 
@@ -54,18 +53,17 @@
 <i> For better window management I use <b> Terminator </b> and <b> zsh </b> shell with <i> prompt off </i> for better clarity and auto-suggestions. </i>
 
 <i> To compile .asm files I use: </i>
-* <b> nasm </b> - `nasm -f elf32 -o hello_world.o hello_world.asm` 
-* <b> ld </b> `ld -m elf_i386 -o hello_world hello_world.o` 
 
-<i> <a href = "https://wiki.archlinux.org/index.php/man_page"> man-pages </a> for quick access to a command description </i> 
-* Install: `sudo pacman -Sy man-pages`
-* Use: `man page_name`, for example `man 2 write`
+- <b> nasm </b> - `nasm -f elf32 -o hello_world.o hello_world.asm`
+- <b> ld </b> `ld -m elf_i386 -o hello_world hello_world.o`
 
-<i> unistd32.h file, located with mlocate </i> 
-* `sudo pacman -Sy mlocate` // -Sy is important here, if you omit that you probably will have to run `sudo ionice -c3 updatedb` 
-* `locate unistd_32.h` 
-* With file located just display it, ( for me ) `nvim /usr/include/asm/unistd_32.h`
+<i> <a href = "https://wiki.archlinux.org/index.php/man_page"> man-pages </a> for quick access to a command description </i>
 
+- Install: `sudo pacman -Sy man-pages`
+- Use: `man page_name`, for example `man 2 write`
 
+<i> unistd32.h file, located with mlocate </i>
 
-
+- `sudo pacman -Sy mlocate` // -Sy is important here, if you omit that you probably will have to run `sudo ionice -c3 updatedb`
+- `locate unistd_32.h`
+- With file located just display it, ( for me ) `nvim /usr/include/asm/unistd_32.h`

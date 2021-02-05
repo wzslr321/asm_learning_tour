@@ -1,3 +1,5 @@
+; all used materials can be found here: https://github.com/wzslr321/asm_learning_tour/tree/main/materials
+
 ; .bss section contains statically-allocated variables that are declared
 ; but have not been assigned a value yet. In this case, 
 ; variable declared inside this section will contain user's input

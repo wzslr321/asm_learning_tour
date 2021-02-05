@@ -1,3 +1,5 @@
+; all used materials can be found here: https://github.com/wzslr321/asm_learning_tour/tree/main/materials
+
 ; section is the smallest unit of an object file that can be relocated
 ; https://docs.oracle.com/cd/E19455-01/806-3773/elf-3/index.html
 
