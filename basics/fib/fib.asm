@@ -1,13 +1,19 @@
-; all materials used can be found here: https://github.com/wzslr321/asm_learning_tour/tree/main/materials
-section .bss
-    number resb 100
+; all materials used can be found here: https://github.com/wzslr321/asm_learning_tour/tree/main/materials section .bss
 
  section .data
-    message: db "How many fibonacci numbers do you want to print? (17 max)", 0xA
+
+    message: db "First 17 fibonacci numbers are:", 0xA
     message_length equ $-message
-    newline: db 0xA
-    
- section .text
+
+    decimal_message: db "Numbers less than 10:", 0xA
+    decimal_message_length equ $-decimal_message
+
+    number_decimal: db 0x10
+    number_hundredth: dw 0x100
+
+    newline: db 0xA 
+
+section .text
     global _start
  _start:
 
@@ -18,12 +24,25 @@ section .bss
         mov edx, message_length
         int 0x80
 
+    _compareToDecimal:
+        mov ah, [number_decimal]
+        cmp ah, 0x9
+        jle _printNumber
+        jmp exit
+        int 0x80
+
+    _printNumber:
+        mov eax, 0x4
+        mov ebx, 1
+        mov ecx, decimal_message
+        mov edx, decimal_message_length
+        int 0x80
+        
     _newLine:
-        mov eax, 4
+        mov eax, 0x4
         mov ebx, 1
         mov ecx, newline ; using 0xA instead of declaerd newLine wouldn't work properly
         mov edx, 1
-        int 0x80
 
 exit:
     mov eax, 0x1
