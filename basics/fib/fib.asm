@@ -25,44 +25,52 @@ section .data
 
     newline: db 0xA 
 
-
 section .code
 
     global _start
 _start:
 
-    ;_compareToDecimal:
-    ;    mov ah, [number_decimal]
-    ;    cmp ah, 9
-    ;    jle _printNumber
-    ;    int 0x80
-
-    ;_compareToHundredth:
-    ;    mov ax, [number_hundredth]
-    ;    cmp ax, 99
-    ;    call _printHundredthMessage
-    ;    int 0x80
-
-    ;_compareToThousandth:
-    ;    mov ax, [number_thousandth]
-    ;    mov ax, 999
-    ;    jle _printNumber
-    ;    int 0x80
+    call _displayMessage
 
     _setCounter:
-        mov ax, 9
-        mov ah, '1'  
+        mov ecx, 9
+        mov eax, '1'  
 
     _repeat:
-        push ax 
-        mov [decimal_number], ah
+        push ecx 
+        mov [decimal_number], eax
         jmp _printNumber
 
     _increase:
-        mov ax, [decimal_number]
-        inc ah
-        pop ax 
+        mov eax, [decimal_number]
+        inc eax
+        pop ecx 
         loop _repeat
+
+    mov eax, 0x4
+    mov ebx, 1
+    mov ecx, newline ; using 0xA instead of declaerd newLine wouldn't work properly
+    mov edx, 1
+    int 0x80
+
+    _compareToDecimal:
+        mov ah, [number_decimal]
+        cmp ah, 9
+        call _printDecimalMessage
+        int 0x80
+
+    _compareToHundredth:
+        mov ax, [number_hundredth]
+        cmp ax, 99
+        call _printHundredthMessage
+        int 0x80
+
+    _compareToThousandth:
+        mov ax, [number_thousandth]
+        cmp ax, 999
+        call _printThousandthMessage
+        int 0x80
+        
 
 section .text
 
@@ -72,6 +80,7 @@ section .text
         mov ecx, message
         mov edx, message_length
         int 0x80
+        ret
 
     _printThousandthMessage:
         mov eax, 0x4
@@ -79,6 +88,8 @@ section .text
         mov ecx, thousandth_message
         mov edx, thousandth_message_length
         int 0x80
+        jmp _newLine
+        ret
 
     _printHundredthMessage:
         mov eax, 0x4
@@ -86,12 +97,22 @@ section .text
         mov ecx, hundredth_message
         mov edx, hundredth_message_length
         int 0x80
+        ret
+
+    _printDecimalMessage:
+        mov eax, 0x4
+        mov ebx, 1
+        mov ecx, decimal_message
+        mov edx, decimal_message_length
+        int 0x80
+        ret
 
     _printNumber:
         mov eax, 0x4
         mov ebx, 1
         mov ecx, decimal_number
         mov edx, 1 
+        int 0x80
         jmp _increase
         int 0x80
 
@@ -100,7 +121,6 @@ section .text
         mov ebx, 1
         mov ecx, newline ; using 0xA instead of declaerd newLine wouldn't work properly
         mov edx, 1
-
     
 exit:
     mov eax, 0x1
