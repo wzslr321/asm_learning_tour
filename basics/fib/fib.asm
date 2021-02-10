@@ -1,6 +1,11 @@
 ; all materials used can be found here: https://github.com/wzslr321/asm_learning_tour/tree/main/materials section .bss
+section .bss
+    
+    decimal_number resb 1
+    hundredth_number resb 2
+    thousandth_number resb 2
 
- section .data
+section .data
 
     message: db "First 17 fibonacci numbers are:", 0xA
     message_length equ $- message
@@ -26,23 +31,38 @@ section .code
     global _start
 _start:
 
-    _compareToDecimal:
-        mov ah, [number_decimal]
-        cmp ah, 9
-        jle _printNumber
-        int 0x80
+    ;_compareToDecimal:
+    ;    mov ah, [number_decimal]
+    ;    cmp ah, 9
+    ;    jle _printNumber
+    ;    int 0x80
 
-    _compareToHundredth:
-        mov ax, [number_hundredth]
-        cmp ax, 99
-        call _printHundredthMessage
-        int 0x80
+    ;_compareToHundredth:
+    ;    mov ax, [number_hundredth]
+    ;    cmp ax, 99
+    ;    call _printHundredthMessage
+    ;    int 0x80
 
-    _compareToThousandth:
-        mov ax, [number_thousandth]
-        mov ax, 999
-        jle _printNumber
-        int 0x80
+    ;_compareToThousandth:
+    ;    mov ax, [number_thousandth]
+    ;    mov ax, 999
+    ;    jle _printNumber
+    ;    int 0x80
+
+    _setCounter:
+        mov ax, 9
+        mov ah, '1'  
+
+    _repeat:
+        push ax 
+        mov [decimal_number], ah
+        jmp _printNumber
+
+    _increase:
+        mov ax, [decimal_number]
+        inc ah
+        pop ax 
+        loop _repeat
 
 section .text
 
@@ -70,8 +90,9 @@ section .text
     _printNumber:
         mov eax, 0x4
         mov ebx, 1
-        mov ecx, decimal_message
-        mov edx, decimal_message_length
+        mov ecx, decimal_number
+        mov edx, 1 
+        jmp _increase
         int 0x80
 
     _newLine:
