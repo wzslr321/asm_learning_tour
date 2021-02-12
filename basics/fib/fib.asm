@@ -6,6 +6,9 @@ section .bss
     thousandth_number resb 2
 
 section .data
+    num1: db '12345'
+    num2: db '23456'
+    sum: db '     ' 
 
     message: db "First 17 fibonacci numbers are:", 0xA
     message_length equ $- message
@@ -32,24 +35,31 @@ _start:
 
     call _displayMessage
 
-    _setCounter:
-        mov ecx, 9
-        mov eax, '1'  
+    mov esi, 4
+    mov ecx, 5
+    clc
 
-    _repeat:
-        push ecx 
-        mov [decimal_number], eax
-        jmp _printNumber
+    _addLoop:
+        mov al, [num1 + esi]
+        adc al, [num2 + esi]
+        aaa
+        pushf
+        or al, 30h
+        popf
 
-    _increase:
-        mov eax, [decimal_number]
-        inc eax
-        pop ecx 
-        loop _repeat
+    mov[sum+esi], al
+    dec esi
+    loop _addLoop
 
     mov eax, 0x4
     mov ebx, 1
-    mov ecx, newline ; using 0xA instead of declaerd newLine wouldn't work properly
+    mov ecx, sum
+    mov edx, 5
+    int 0x80
+    
+    mov eax, 0x4
+    mov ebx, 1
+    mov ecx, newline
     mov edx, 1
     int 0x80
 
@@ -57,20 +67,16 @@ _start:
         mov ah, [number_decimal]
         cmp ah, 9
         call _printDecimalMessage
-        int 0x80
 
     _compareToHundredth:
         mov ax, [number_hundredth]
         cmp ax, 99
         call _printHundredthMessage
-        int 0x80
 
     _compareToThousandth:
         mov ax, [number_thousandth]
         cmp ax, 999
         call _printThousandthMessage
-        int 0x80
-        
 
 section .text
 
@@ -107,15 +113,6 @@ section .text
         int 0x80
         ret
 
-    _printNumber:
-        mov eax, 0x4
-        mov ebx, 1
-        mov ecx, decimal_number
-        mov edx, 1 
-        int 0x80
-        jmp _increase
-        int 0x80
-
     _newLine:
         mov eax, 0x4
         mov ebx, 1
@@ -125,4 +122,4 @@ section .text
 exit:
     mov eax, 0x1
     mov ebx, 0
-    int 0x80
+    int 0x8
