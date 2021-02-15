@@ -1,11 +1,11 @@
 section .bss
     num resb 1
+    sum resb 1 
 
 section .data
     newline: db 0xA
     num1 db '12345'
-    num2 db '23456'
-    sum db '     '
+    num2 db '12345'
 
 section .code
     global _start

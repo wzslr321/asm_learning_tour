@@ -1,125 +1,69 @@
-; all materials used can be found here: https://github.com/wzslr321/asm_learning_tour/tree/main/materials section .bss
+ section .bss
 section .bss
-    
-    decimal_number resb 1
-    hundredth_number resb 2
-    thousandth_number resb 2
+    num resb 1
 
 section .data
-    num1: db '12345'
-    num2: db '23456'
-    sum: db '     ' 
-
-    message: db "First 17 fibonacci numbers are:", 0xA
-    message_length equ $- message
-
-    decimal_message: db "Numbers less than 10:", 0xA
-    decimal_message_length equ $- decimal_message
-
-    hundredth_message: db "Numbers less than 100:", 0xA
-    hundredth_message_length equ $- hundredth_message
-
-    thousandth_message: db "Numbers less than 1000:", 0xA
-    thousandth_message_length equ $- thousandth_message
-
-    number_decimal: db 0x9
-    number_hundredth: dw 0x99
-    number_thousandth: dw 0x999
-
     newline: db 0xA 
 
 section .code
-
     global _start
 _start:
 
-    call _displayMessage
+    _setValues:
+        mov ecx, 7; loop 7 times
+        mov ax, '0'; init 1st num with 0
+        mov dx, '1'; init 2nd num with 1
 
-    mov esi, 4
-    mov ecx, 5
-    clc
+        ; int 3 ; debug breakpoint 
+        ; registers ax and dx as characters, so it debug here are 0x30 and 0x31
 
-    _addLoop:
-        mov al, [num1 + esi]
-        adc al, [num2 + esi]
-        aaa
-        pushf
-        or al, 30h
-        popf
+    _repeat:
+        push ecx ; push ecx on stack to have loop info
+        mov [num], ax; [num] = '0' ; num = '1'
 
-    mov[sum+esi], al
-    dec esi
-    loop _addLoop
+        push ax; push ax on the stack; ax = '0' ; it secures from being overwritten by int0x80
+        push dx; push dx on the stack; ax = '1'
 
-    mov eax, 0x4
-    mov ebx, 1
-    mov ecx, sum
-    mov edx, 5
-    int 0x80
+    _increase:
+        mov eax, 0x4
+        mov ebx, 1
+        mov ecx, num ; print num
+        mov edx, 1
+        int 0x80
+
+
+        pop dx ; copy top of the stack (dx); dx = '1'
+        pop ax ; copy top of the stack (ax); ax = '0'
+
+        ; int 3 ; debugger shows the same values as before, 0x30 and 0x31.
+        
+        sub dx, 30h; ebx = 1; ebx = 1; ebx = 2; ebx = 3
+        sub ax, 30h; eax = 0; eax = 1; eax = 1; eax = 2
+
+        ; sub 0x30 from dx, and ax to make it possible to add them
     
-    mov eax, 0x4
-    mov ebx, 1
-    mov ecx, newline
-    mov edx, 1
-    int 0x80
+        ; int 3
+        ; after substraction, debugger shows properly its values as integers - 0x0 and 0x1
 
-    _compareToDecimal:
-        mov ah, [number_decimal]
-        cmp ah, 9
-        call _printDecimalMessage
+        add ax, dx; eax = 1; eax = 2; eax = 3; eax = 5
+        mov [num], ax; [sum] = 1; [sum] = 2; sum = 3; [sum] = 5
 
-    _compareToHundredth:
-        mov ax, [number_hundredth]
-        cmp ax, 99
-        call _printHundredthMessage
+        mov ax, dx;  eax = 1; eax = 1; eax = 2; eax = 3
+        add ax, 30h ; eax = '1'; eax = '1'; eax = '2'; eax = '3'
+        mov dx, [num] ; ebx = 1; ebx = 2; ebx = 3; ebx = 5 
+        add dx, 30h; ebx = '1'; ebx = '2'; ebx = '3'; ebx = '5'
 
-    _compareToThousandth:
-        mov ax, [number_thousandth]
-        cmp ax, 999
-        call _printThousandthMessage
-
-section .text
-
-    _displayMessage:
-        mov eax, 0x4
-        mov ebx, 1 
-        mov ecx, message
-        mov edx, message_length
-        int 0x80
-        ret
-
-    _printThousandthMessage:
-        mov eax, 0x4
-        mov ebx, 1
-        mov ecx, thousandth_message
-        mov edx, thousandth_message_length
-        int 0x80
-        jmp _newLine
-        ret
-
-    _printHundredthMessage:
-        mov eax, 0x4
-        mov ebx, 1
-        mov ecx, hundredth_message
-        mov edx, hundredth_message_length
-        int 0x80
-        ret
-
-    _printDecimalMessage:
-        mov eax, 0x4
-        mov ebx, 1
-        mov ecx, decimal_message
-        mov edx, decimal_message_length
-        int 0x80
-        ret
+        pop ecx
+        loop _repeat
 
     _newLine:
-        mov eax, 0x4
-        mov ebx, 1
-        mov ecx, newline ; using 0xA instead of declaerd newLine wouldn't work properly
-        mov edx, 1
-    
+      mov eax, 0x4
+      mov ebx, 1
+      mov ecx, newline
+      mov edx, 1
+      int 0x80
+
 exit:
     mov eax, 0x1
     mov ebx, 0
-    int 0x8
+    int 0x80
