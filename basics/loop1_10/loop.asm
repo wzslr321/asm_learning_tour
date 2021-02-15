@@ -19,7 +19,7 @@ section .bss
         int 0x80
 
     _setCounter:
-        mov ecx, 9 ; repeat 9 times
+        mov ecx, 9 ; repeat 9 time
         mov eax, '1' ; set initial value to 1
 
     _repeat:
