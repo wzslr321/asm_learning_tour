@@ -26,7 +26,11 @@ _start:
     mov[sum + esi], al
     dec esi
     loop _add_loop
+
     
+    _printSum:
+    mov ax, [sum]
+    int 3
     mov eax, 0x4
     mov ebx, 1
     mov ecx, sum
