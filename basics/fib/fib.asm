@@ -1,5 +1,5 @@
 section .bss
-    num resb 1;  allocate 1 byte for a num variable
+    num resb 2;  allocate 1 byte for a num variable
 
 section .data
     newline: db 0xA
