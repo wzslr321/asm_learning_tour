@@ -2,6 +2,7 @@ section .bss
     option resb 1
     num1 resb 1
     num2 resb 1
+    result resb 2
 
 section .data
     option_msg: db "Press: 1 - add | 2 - substract | 3 - multiply | 4 - divide", 0xA
@@ -53,10 +54,19 @@ _start:
         mov edx, 2
         int 0x80
 
+      mov ah, [num1]
+      sub ah, 30h 
+      mov al, [num2]
+      sub al, 30h 
+
+      add ah,al
+      add ah, 30h
+      mov [result],ah
+
       _compareOption:
-        mov ah, [option]
-        sub ah, 30h
-        cmp ah, 0x4
+        mov ax, [option]
+        sub ax, 30h
+        cmp ax, 0x4
         je _div
         cmp ah, 0x3
         je _mul
@@ -64,7 +74,16 @@ _start:
         je _sub
 
     _add:
-      call _addMessage
+      call _addMessage     
+      mov eax, 0x4
+      mov ebx, 1
+      mov ecx, result
+      mov edx, 1 
+      int 0x80
+
+      call _newLine
+
+
       jmp exit
 
     _sub:
