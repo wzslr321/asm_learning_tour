@@ -28,3 +28,4 @@ section .code
         mov edx, 2
         int 0x80
         ret
+        
