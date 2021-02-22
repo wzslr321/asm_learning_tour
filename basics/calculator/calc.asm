@@ -11,49 +11,57 @@ _start:
       call _numMessage
       call _getNdNum
 
-      _convertToInt:
-        mov ah, [num1]
-        sub ah, 30h 
-        mov al, [num2]
-        sub al, 30h 
-
-      _calculateResult:
-        add ah,al
-        add ah, 30h
-        mov [result],ah
-
      _compareOption:
-        mov ax, [option]
-        sub ax, 30h
-        cmp ax, 0x4
+        mov ah, [option]
+        sub ah, 30h
+        cmp ah, 0x4
         je _div
         cmp ah, 0x3
         je _mul
         cmp ah, 0x2
         je _sub
 
+
      _add:
+        call _convertValues
+        call _addValues
         call _addMessage     
         call _resultMsg
-        call _newLine
-
-        jmp exit
+        jmp _newLine
 
     _sub:
+        call _convertValues
+        call _subValues
         call _subMessage
-        jmp exit
+        call _resultMsg
+        jmp _newLine
 
     _mul:
+       call _convertValues
+       call _mulValues
        call _mulMessage
-       jmp exit
+       call _resultMsg
+       jmp _newLine
     
     _div:
+       call _convertValues
+       call _divValues
        call _divMessage
-       jmp exit
+       call _resultMsg
+       jmp _newLine
+
 
     _includeFiles:
       %include 'messages.asm'
       %include 'get_numbers.asm'
+      %include 'functions.asm'
+    
+    _newLine:
+      mov eax, 0x4
+      mov ebx, 1
+      mov ecx, newLine
+      mov edx, 1
+      int 0x80
 
 exit:
     mov eax, 0x1

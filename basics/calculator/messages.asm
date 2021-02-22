@@ -78,10 +78,3 @@ section .text
       int 0x80
       ret
 
-    _newLine:
-      mov eax, 0x4
-      mov ebx, 1
-      mov ecx, newLine
-      mov edx, 1
-      int 0x80
-      ret
