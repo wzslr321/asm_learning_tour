@@ -1,5 +1,4 @@
 
-
 section .data
     option_msg: db "Press: 1 - add | 2 - substract | 3 - multiply | 4 - divide", 0xA
     option_msg_length equ $- option_msg

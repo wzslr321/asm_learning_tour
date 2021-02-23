@@ -1,34 +1,29 @@
+section .bss
+    val1 resb 1
 section .code
-    _convertValues:
-        mov ah, [num1] 
-        sub ah, 30h
-        mov al, [num2]
-        sub al, 30h
-        ret 
 
     _addValues:
-        add ah,al
-        add ah, 30h
-        mov [result], ah
+        add eax, edx
+        add eax, 30h
+        mov [result], eax
         ret
     
     _subValues:
-        sub ah,al
-        add ah,30h
-        mov [result],ah 
+        sub eax, edx
+        add eax,30h
+        mov [result], eax
         ret
 
     _mulValues:
-        mul ah
-        add al, 30h
-        mov [result], al
+        mul edx 
+        add eax, 30h
+        mov [result], eax
         ret
 
     _divValues:
-       ; div ah
-       ; int 3
-       ; add al,30h
-       ; mov [result],al
-       ; ret
-       ; not working :()
+        xor edx, edx
+        div ebx
+        add eax,30h
+        mov [result], eax
+        ret
         

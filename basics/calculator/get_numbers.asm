@@ -1,8 +1,8 @@
 section .bss
     option resb 1
-    num1 resb 1
-    num2 resb 1
-    result resb 2
+    num1 resb 4
+    num2 resb 4 
+    result resb 4
 
 section .code
     _getOption:

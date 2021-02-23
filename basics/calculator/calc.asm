@@ -23,35 +23,49 @@ _start:
 
 
      _add:
-        call _convertValues
+        mov eax, [num1] 
+        sub eax, 30h
+        mov edx, [num2]
+        sub edx, 30h
+
         call _addValues
         call _addMessage     
         call _resultMsg
         jmp _newLine
 
     _sub:
-        call _convertValues
+        mov eax, [num1] 
+        sub eax, 30h
+        mov edx, [num2]
+        sub edx, 30h
+
         call _subValues
         call _subMessage
         call _resultMsg
         jmp _newLine
 
     _mul:
-       call _convertValues
+       mov eax, [num1]
+       mov edx, [num2]
+       sub eax, 30h
+       sub edx, 30h
+
        call _mulValues
        call _mulMessage
        call _resultMsg
        jmp _newLine
     
     _div:
-       call _convertValues
+       mov eax, [num1]
+       mov ebx, [num2] 
+       sub eax, 0xA30
+       sub ebx, 0xA30 
        call _divValues
        call _divMessage
        call _resultMsg
        jmp _newLine
 
-
-    _includeFiles:
+   _includeFiles:
       %include 'messages.asm'
       %include 'get_numbers.asm'
       %include 'functions.asm'
