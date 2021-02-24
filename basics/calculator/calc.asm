@@ -1,16 +1,16 @@
 section .code
     global _start
 _start:
+      call _optionMessage ; messages.asm file
+      call _getOption ; get_numbers.asm file
 
-      call _optionMessage 
-      call _getOption
+      call _numMessage; messages.asm file
+      call _getStNum; get_numbers.asm file
 
-      call _numMessage
-      call _getStNum
+      call _numMessage; messages.asm file
+      call _getNdNum; get_numbers.asm file
 
-      call _numMessage
-      call _getNdNum
-
+     ; Check what calculation user wants to do and jump
      _compareOption:
         mov ah, [option]
         sub ah, 30h
@@ -21,13 +21,13 @@ _start:
         cmp ah, 0x2
         je _sub
 
-
      _add:
         mov eax, [num1] 
         sub eax, 30h
         mov edx, [num2]
         sub edx, 30h
 
+        ; every calculation function is in functions.asm file
         call _addValues
         call _addMessage     
         call _resultMsg
